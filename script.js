@@ -14,12 +14,10 @@ const navAnchors = document.querySelectorAll(".nav-links a");
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-      }
+      entry.target.classList.toggle("is-visible", entry.isIntersecting);
     });
   },
-  { threshold: 0.18 }
+  { threshold: 0.2 }
 );
 
 sections.forEach((section) => observer.observe(section));
@@ -63,3 +61,37 @@ function animateCursor() {
 }
 
 animateCursor();
+
+const artistCards = document.querySelectorAll(".artist-card");
+
+artistCards.forEach((card) => {
+  const button = card.querySelector(".artist-toggle");
+  const embedWrap = card.querySelector(".embed-wrap");
+
+  button.addEventListener("click", () => {
+    const isOpen = button.getAttribute("aria-expanded") === "true";
+
+    artistCards.forEach((otherCard) => {
+      const otherButton = otherCard.querySelector(".artist-toggle");
+      const otherWrap = otherCard.querySelector(".embed-wrap");
+      otherButton.setAttribute("aria-expanded", "false");
+      otherWrap.classList.remove("open");
+      otherWrap.hidden = true;
+    });
+
+    if (!isOpen) {
+      if (!embedWrap.querySelector("iframe")) {
+        const iframe = document.createElement("iframe");
+        iframe.src = card.dataset.track;
+        iframe.allow = "autoplay";
+        iframe.loading = "lazy";
+        iframe.title = `${card.querySelector("h3").textContent} SoundCloud Player`;
+        embedWrap.appendChild(iframe);
+      }
+
+      button.setAttribute("aria-expanded", "true");
+      embedWrap.hidden = false;
+      requestAnimationFrame(() => embedWrap.classList.add("open"));
+    }
+  });
+});
