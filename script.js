@@ -36,3 +36,30 @@ window.addEventListener("scroll", () => {
     }
   });
 });
+
+const cursor = document.querySelector(".custom-cursor");
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let currentX = mouseX;
+let currentY = mouseY;
+
+window.addEventListener("mousemove", (event) => {
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+  cursor.style.opacity = "1";
+});
+
+window.addEventListener("mouseout", () => {
+  cursor.style.opacity = "0";
+});
+
+function animateCursor() {
+  const speed = 0.16;
+  currentX += (mouseX - currentX) * speed;
+  currentY += (mouseY - currentY) * speed;
+  cursor.style.left = `${currentX}px`;
+  cursor.style.top = `${currentY}px`;
+  requestAnimationFrame(animateCursor);
+}
+
+animateCursor();

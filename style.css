@@ -1,12 +1,12 @@
 :root {
-  --bg-main: #0d0a17;
-  --bg-secondary: #151026;
-  --text-main: #f4f1ff;
-  --text-muted: #c6bfdd;
-  --accent: #a87cff;
-  --accent-strong: #8a58f5;
-  --border: rgba(168, 124, 255, 0.22);
-  --shadow: 0 20px 40px rgba(4, 2, 12, 0.45);
+  --bg-main: #130909;
+  --bg-secondary: #1f1010;
+  --text-main: #f8efef;
+  --text-muted: #d9c2c2;
+  --accent: #ff5f5f;
+  --accent-strong: #cf3434;
+  --border: rgba(255, 95, 95, 0.24);
+  --shadow: 0 20px 40px rgba(15, 3, 3, 0.48);
 }
 
 * {
@@ -21,9 +21,60 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  background: radial-gradient(circle at top, #1a1230 0%, var(--bg-main) 45%);
+  background: radial-gradient(circle at top, #2a1212 0%, var(--bg-main) 48%);
   color: var(--text-main);
   line-height: 1.65;
+  cursor: none;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.snow-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.42) 0 2px, transparent 2.6px),
+    radial-gradient(circle, rgba(255, 235, 235, 0.32) 0 1.4px, transparent 2px),
+    radial-gradient(circle, rgba(255, 210, 210, 0.25) 0 2.4px, transparent 3px);
+  background-size: 240px 240px, 180px 180px, 300px 300px;
+  background-position: 0 0, 80px 40px, 120px 120px;
+  opacity: 0.3;
+  filter: blur(1.7px);
+  animation: snowfall 28s linear infinite;
+}
+
+@keyframes snowfall {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(120px);
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 8%, #ff8e8e 40%, #ff4f4f 100%);
+  box-shadow:
+    0 0 0 6px rgba(255, 88, 88, 0.15),
+    0 0 18px rgba(255, 88, 88, 0.5);
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+}
+
+.container,
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 2;
 }
 
 .container {
@@ -198,6 +249,11 @@ body {
   transform: translateY(0);
 }
 
+a,
+button {
+  cursor: none;
+}
+
 @media (max-width: 760px) {
   .menu-toggle {
     display: block;
@@ -222,5 +278,15 @@ body {
 
   .hero {
     padding-top: 5rem;
+  }
+
+  .custom-cursor {
+    display: none;
+  }
+
+  body,
+  a,
+  button {
+    cursor: auto;
   }
 }
